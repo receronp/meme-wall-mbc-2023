@@ -5,35 +5,29 @@
       "type": "motoko"
     },
     "assets": {
-      "dependencies": [
-        "counter"
-      ],
+      "dependencies": ["counter"],
       "frontend": {
         "entrypoint": "dist/index.html"
       },
-      "source": [
-        "dist/"
-      ],
+      "source": ["dist/"],
       "type": "assets"
+    },
+    "internet_identity": {
+      "type": "custom",
+      "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz",
+      "shrink": false,
+      "remote": {
+        "candid": "internet_identity.did",
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      }
     }
   },
   "defaults": {
     "build": {
       "packtool": ""
     }
-  },
-  "dfx": "0.8.1",
-  "networks": {
-    "local": {
-      "bind": "127.0.0.1:8000",
-      "type": "ephemeral"
-    },
-    "ic": {
-      "providers": [
-        "https://mainnet.dfinity.network"
-      ],
-      "type": "persistent"
-    }
-  },
-  "version": 1
+  }
 }

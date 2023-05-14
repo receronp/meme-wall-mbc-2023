@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { AuthClient } from "@dfinity/auth-client"
 import dfinityLogo from "./assets/dfinity.svg"
+import { Identity } from "@dfinity/agent"
 
 // Note: This is just a basic example to get you started
 function Auth() {
@@ -22,18 +23,22 @@ function Auth() {
     }
   }
 
+  type UserIdentity = { identity: Identity; principal: string }
+
   const signIn = async () => {
-    const { identity, principal } = await new Promise((resolve, reject) => {
-      client.login({
-        identityProvider: "https://identity.ic0.app",
-        onSuccess: () => {
-          const identity = client.getIdentity()
-          const principal = identity.getPrincipal().toString()
-          resolve({ identity, principal })
-        },
-        onError: reject,
-      })
-    })
+    const { identity, principal } = await new Promise<UserIdentity>(
+      (resolve, reject) => {
+        client.login({
+          identityProvider: `http://${process.env.INTERNET_IDENTITY_CANISTER_ID}.localhost:4943`,
+          onSuccess: () => {
+            const identity = client.getIdentity()
+            const principal = identity.getPrincipal().toString()
+            resolve({ identity, principal })
+          },
+          onError: reject,
+        })
+      },
+    )
     setSignedIn(true)
     setPrincipal(principal)
   }
@@ -50,21 +55,24 @@ function Auth() {
 
   return (
     <div className="auth-section">
-
       {!signedIn && client ? (
         <button onClick={signIn} className="auth-button">
-          Sign in
-          <img style={{ width: "33px", marginRight: "-1em", marginLeft: "0.7em" }} src={dfinityLogo} />
+          Login with Internet Identity
+          <img
+            style={{ width: "33px", marginRight: "-1em", marginLeft: "0.7em" }}
+            src={dfinityLogo}
+          />
         </button>
       ) : null}
 
       {signedIn ? (
         <>
           <p>Signed in as: {principal}</p>
-          <button onClick={signOut} className="auth-button">Sign out</button>
+          <button onClick={signOut} className="auth-button">
+            Sign out
+          </button>
         </>
       ) : null}
-
     </div>
   )
 }

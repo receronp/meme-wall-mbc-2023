@@ -1,14 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
-    "types": [
-      "vite/client"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vite/client", "node"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -23,12 +17,8 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "canisters/counter": [
-        ".dfx/local/canisters/counter"
-      ]
+      "canisters/counter": [".dfx/local/canisters/counter"]
     }
   },
-  "include": [
-    "./frontend"
-  ]
+  "include": ["./frontend"]
 }
