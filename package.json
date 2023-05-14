@@ -28,8 +28,12 @@
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.14",
     "buffer": "^6.0.3",
+    "daisyui": "^2.51.6",
     "ic-mops": "^0.12.2",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
     "vite": "^4.3.5"
   }
