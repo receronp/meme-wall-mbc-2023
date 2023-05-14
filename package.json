@@ -2,9 +2,16 @@
   "name": "mb-wall",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "serve": "vite preview"
+    "dev": "vite src/frontend --config vite.config.ts",
+    "prebuild": "npm run generate",
+    "build": "vite build src/frontend --config vite.config.ts",
+    "prestart": "npm run generate",
+    "start": "npm run dev",
+    "predeploy": "npm run generate",
+    "deploy:local": "dfx deploy --network=local",
+    "deploy:ic": "dfx deploy --network=ic",
+    "sources": "mops sources",
+    "generate": "dfx generate"
   },
   "dependencies": {
     "@dfinity/auth-client": "^0.15.6",
@@ -22,6 +29,7 @@
     "@types/react-dom": "^18.2.4",
     "@vitejs/plugin-react": "^4.0.0",
     "buffer": "^6.0.3",
+    "ic-mops": "^0.12.2",
     "typescript": "^5.0.4",
     "vite": "^4.3.5"
   }

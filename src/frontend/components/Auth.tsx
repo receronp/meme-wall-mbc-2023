@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { AuthClient } from "@dfinity/auth-client"
-import dfinityLogo from "./assets/dfinity.svg"
+import dfinityLogo from "../assets/dfinity.svg"
 import { Identity } from "@dfinity/agent"
 
 // Note: This is just a basic example to get you started

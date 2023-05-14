@@ -1,6 +1,6 @@
 import React from "react"
-import { Auth } from "./Auth"
-import { Intro } from "./Intro"
+import { Auth } from "./components/Auth"
+import { Intro } from "./components/Intro"
 
 function App() {
   return (

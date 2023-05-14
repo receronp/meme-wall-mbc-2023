@@ -1,0 +1,8 @@
+[package]
+name = "mb-wall"
+version = "0.1.0"
+description = ""
+repository = ""
+
+[dependencies]
+base = "0.8.7"
