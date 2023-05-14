@@ -4,7 +4,11 @@ import dfinityLogo from "../assets/dfinity.svg"
 import { Identity } from "@dfinity/agent"
 
 // Note: This is just a basic example to get you started
-function Auth() {
+function Auth({
+  setIdentity,
+}: {
+  setIdentity: React.Dispatch<React.SetStateAction<Identity | undefined>>
+}) {
   const [signedIn, setSignedIn] = useState<boolean>(false)
   const [principal, setPrincipal] = useState<string>("")
   const [client, setClient] = useState<any>()
@@ -20,6 +24,7 @@ function Auth() {
       const principal = identity.getPrincipal().toString()
       setSignedIn(true)
       setPrincipal(principal)
+      setIdentity(identity)
     }
   }
 
@@ -41,12 +46,14 @@ function Auth() {
     )
     setSignedIn(true)
     setPrincipal(principal)
+    setIdentity(identity)
   }
 
   const signOut = async () => {
     await client.logout()
     setSignedIn(false)
     setPrincipal("")
+    setIdentity(undefined)
   }
 
   useEffect(() => {

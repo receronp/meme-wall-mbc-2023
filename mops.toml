@@ -6,3 +6,5 @@ repository = ""
 
 [dependencies]
 base = "0.8.7"
+map = "8.1.0"
+"json.mo" = "0.1.2"

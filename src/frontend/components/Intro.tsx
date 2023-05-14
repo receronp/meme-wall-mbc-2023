@@ -1,21 +1,36 @@
 import React, { useEffect, useState } from "react"
-import { counter } from "../../declarations/counter"
+import { canisterId, createActor } from "../../declarations/counter"
 import logo from "../assets/logo-dark.svg"
+import { ActorSubclass, Identity } from "@dfinity/agent"
+import { _SERVICE } from "../../declarations/counter/counter.did"
 
-export function Intro() {
+export function Intro({ identity }: { identity: Identity | undefined }) {
   const [count, setCount] = useState<string>()
+  const [authenticatedCounter, setAuthenticatedCounter] =
+    useState<ActorSubclass<_SERVICE>>()
 
   const refreshCounter = async () => {
-    const res = await counter.getValue()
-    setCount(res.toString())
+    const res = await authenticatedCounter?.myCount()
+    setCount(res?.toString())
   }
+
+  useEffect(() => {
+    setAuthenticatedCounter(
+      createActor(canisterId, {
+        agentOptions: {
+          identity,
+        },
+      }),
+    )
+    refreshCounter()
+  }, [identity])
 
   useEffect(() => {
     refreshCounter()
   }, [])
 
   const onIncrementClick = async () => {
-    await counter.increment()
+    await authenticatedCounter?.increment()
     refreshCounter()
   }
 
@@ -81,9 +96,13 @@ export function Intro() {
             </a>
           </div>
         </div>
-        <button className="demo-button" onClick={onIncrementClick}>
-          Count is: {count}
-        </button>
+        {identity ? (
+          <button className="demo-button" onClick={onIncrementClick}>
+            Count is: {count}
+          </button>
+        ) : (
+          <span>User is not logged in</span>
+        )}
         <p style={{ fontSize: "0.6em" }}>
           This counter is running inside a canister
         </p>
