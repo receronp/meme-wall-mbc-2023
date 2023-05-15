@@ -5,7 +5,6 @@
     "dev": "vite src/frontend --config vite.config.ts",
     "prebuild": "npm run generate",
     "build": "vite build src/frontend --config vite.config.ts",
-    "prestart": "npm run generate",
     "start": "npm run dev",
     "predeploy": "npm run generate",
     "deploy:local": "dfx deploy --network=local",

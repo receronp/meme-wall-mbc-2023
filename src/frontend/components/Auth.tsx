@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { AuthClient } from "@dfinity/auth-client"
-import dfinityLogo from "../assets/dfinity.svg"
+import dfinityLogo from "../assets/favicon.svg"
 import { Identity } from "@dfinity/agent"
 
 // Note: This is just a basic example to get you started
@@ -10,8 +10,8 @@ function Auth({
   setIdentity: React.Dispatch<React.SetStateAction<Identity | undefined>>
 }) {
   const [signedIn, setSignedIn] = useState<boolean>(false)
-  const [principal, setPrincipal] = useState<string>("")
   const [client, setClient] = useState<any>()
+  const [principal, setPrincipal] = useState<any>()
 
   const initAuth = async () => {
     const client = await AuthClient.create()
@@ -61,25 +61,48 @@ function Auth({
   }, [])
 
   return (
-    <div className="auth-section">
-      {!signedIn && client ? (
-        <button onClick={signIn} className="auth-button">
-          Login with Internet Identity
-          <img
-            style={{ width: "33px", marginRight: "-1em", marginLeft: "0.7em" }}
-            src={dfinityLogo}
-          />
-        </button>
-      ) : null}
-
-      {signedIn ? (
-        <>
-          <p>Signed in as: {principal}</p>
-          <button onClick={signOut} className="auth-button">
-            Sign out
-          </button>
-        </>
-      ) : null}
+    <div className="navbar bg-neutral text-neutral-content">
+      <div className="flex-1">
+        <a className="btn btn-ghost normal-case text-xl">The Wall</a>
+        <p className="text-xs">A Motoko Bootcamp Initiative</p>
+      </div>
+      <div className="flex-none gap-2">
+        {!signedIn && client && (
+          <div className="dropdown dropdown-end">
+            <div className="navbar-end btn btn-wide">
+              <button onClick={signIn} className="flex space-x-2 items-center">
+                <span>Login with Internet Identity</span>
+                <img
+                  style={{
+                    width: "33px",
+                  }}
+                  src={dfinityLogo}
+                />
+              </button>
+            </div>
+          </div>
+        )}
+        {signedIn && (
+          <>
+            <div>Signed in as: {principal}</div>
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost">
+                <div className="w-10 rounded-full">
+                  <img src={dfinityLogo} />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+              >
+                <li onClick={signOut}>
+                  <a>Logout</a>
+                </li>
+              </ul>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
 }

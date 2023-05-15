@@ -21,12 +21,13 @@ actor class StudentWall() {
   let wall = HashMap.HashMap<Text, Message>(1, Text.equal, Text.hash);
 
   public shared ({ caller }) func writeMessage(c : Content) : async Nat {
+    let index = messageId;
     let message : Message = {
+      id = index;
       content = c;
       vote = 0;
       creator = caller;
     };
-    let index = messageId;
     wall.put(Nat.toText(index), message);
     messageId += 1;
     return index;
@@ -47,6 +48,7 @@ actor class StudentWall() {
 
     if (Principal.equal(message.creator, caller)) {
       message := {
+        id = message.id;
         content = c;
         vote = message.vote;
         creator = message.creator;
@@ -67,6 +69,7 @@ actor class StudentWall() {
 
   private func addVote(messageId : Nat, message : Message, vote : Int) : () {
     let m = {
+      id = message.id;
       content = message.content;
       vote = message.vote + vote;
       creator = message.creator;
