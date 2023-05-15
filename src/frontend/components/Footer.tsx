@@ -3,11 +3,19 @@ import poweredByICLogo from "../assets/ic-badge-powered-by_bg-white.svg"
 
 export function Footer() {
   return (
-    <footer className="footer footer-center fixed bottom-0 p-4 bg-base-300 text-base-content">
-      <img src={poweredByICLogo} />
+    <footer className="footer fixed bottom-0 p-4 bg-base-300 text-base-content h-20">
       <div>
-        <p>Copyright © 2023 - All right reserved by receronp</p>
+        <a href="https://internetcomputer.org/">
+          <img src={poweredByICLogo} />
+        </a>
       </div>
+      <div>
+        <p>
+          Copyright © {new Date().getFullYear()} - All right reserved by{" "}
+          <a href="https://github.com/receronp">receronp</a>
+        </p>
+      </div>
+      <div></div>
     </footer>
   )
 }

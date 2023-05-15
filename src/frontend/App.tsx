@@ -13,13 +13,17 @@ function App() {
   const [identity, setIdentity] = useState<Identity>()
 
   return (
-    <div className="App">
-      <NewModal setContent={setNewContent} />{" "}
+    <>
+      <NewModal setContent={setNewContent} />
       <UpdateModal setContent={setUpdateContent} />
       <Auth setIdentity={setIdentity} />
-      <Wall identity={identity} newContent={newContent} updateContent={updateContent} />
+      <Wall
+        identity={identity}
+        newContent={newContent}
+        updateContent={updateContent}
+      />
       <Footer />
-    </div>
+    </>
   )
 }
 

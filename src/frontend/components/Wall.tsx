@@ -79,76 +79,78 @@ export function Wall({
 
   return (
     <div className="container mx-auto py-2">
-      <table className="table w-full">
-        <thead>
-          <tr>
-            <th>Content</th>
-            <th>Creator</th>
-            <th>Vote</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {messages?.map((msg, i) => {
-            return (
-              <tr key={i}>
-                <td>{JSON.stringify(msg.content)}</td>
-                <td>{msg.creator.toString()}</td>
-                <td className="flex">
-                  <button
-                    className="mx-1"
-                    onClick={() => {
-                      onVote(true, msg.id)
-                    }}
-                  >
-                    🔼
-                  </button>
-                  <button
-                    className="mx-1"
-                    onClick={() => {
-                      onVote(false, msg.id)
-                    }}
-                  >
-                    🔽
-                  </button>
-                  <span>{msg.vote.toString()}</span>
-                </td>
-                <td>
-                  <label
-                    onClick={() => {
-                      setIndex(msg.id)
-                    }}
-                    htmlFor="my-modal-2"
-                    className="btn btn-xs btn-warning"
-                  >
-                    update
-                  </label>
-                </td>
-                <td>
-                  <button
-                    onClick={() => onDelete(msg.id)}
-                    className="btn btn-xs btn-error"
-                  >
-                    delete
-                  </button>
-                </td>
-              </tr>
-            )
-          })}
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              <label htmlFor="my-modal-1" className="btn">
-                New message
-              </label>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="grid grid-cols-5 gap-2 my-4">
+        <div>
+        <h1 className="text-xl font-bold">Messages</h1>
+        </div>
+        <div className="col-span-3"></div>
+        <div>
+          <label htmlFor="my-modal-1" className="btn btn-success btn-sm">
+            New message
+          </label>
+        </div>
+      </div>
+      <div className="overflow-y-auto h-96">
+        <table className="table w-full overflow-scroll">
+          <thead>
+            <tr>
+              <th>Content</th>
+              <th>Creator</th>
+              <th>Vote</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {messages?.map((msg, i) => {
+              return (
+                <tr key={i}>
+                  <td>{JSON.stringify(msg.content)}</td>
+                  <td>{msg.creator.toString()}</td>
+                  <td className="flex">
+                    <button
+                      className="mx-1"
+                      onClick={() => {
+                        onVote(true, msg.id)
+                      }}
+                    >
+                      🔼
+                    </button>
+                    <button
+                      className="mx-1"
+                      onClick={() => {
+                        onVote(false, msg.id)
+                      }}
+                    >
+                      🔽
+                    </button>
+                    <span>{msg.vote.toString()}</span>
+                  </td>
+                  <td>
+                    <label
+                      onClick={() => {
+                        setIndex(msg.id)
+                      }}
+                      htmlFor="my-modal-2"
+                      className="btn btn-xs btn-warning"
+                    >
+                      update
+                    </label>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => onDelete(msg.id)}
+                      className="btn btn-xs btn-error"
+                    >
+                      delete
+                    </button>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
