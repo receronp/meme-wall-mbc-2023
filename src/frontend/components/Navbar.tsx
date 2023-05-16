@@ -3,7 +3,7 @@ import { AuthClient } from "@dfinity/auth-client"
 import dfinityLogo from "../assets/favicon.svg"
 import { Identity } from "@dfinity/agent"
 
-export function Navbar({
+export default function Navbar({
   setIdentity,
 }: {
   setIdentity: React.Dispatch<React.SetStateAction<Identity | undefined>>

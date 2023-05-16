@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
-import { Wall } from "./components/Wall"
-import { Footer } from "./components/Footer"
-import { Navbar } from "./components/Navbar"
+import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
+import Wall from "./routes/Wall"
 import ErrorPage from "./error-page"
 import { ContentPage } from "./routes/ContentPage"
 import { ActorSubclass, Identity } from "@dfinity/agent"

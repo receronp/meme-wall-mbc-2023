@@ -1,7 +1,7 @@
 import React from "react"
 import poweredByICLogo from "../assets/ic-badge-powered-by_bg-white.svg"
 
-export function Footer() {
+export default function Footer() {
   return (
     <footer className="footer fixed bottom-0 p-4 bg-base-300 text-base-content h-20">
       <div>
