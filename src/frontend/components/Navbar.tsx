@@ -3,8 +3,7 @@ import { AuthClient } from "@dfinity/auth-client"
 import dfinityLogo from "../assets/favicon.svg"
 import { Identity } from "@dfinity/agent"
 
-// Note: This is just a basic example to get you started
-function Auth({
+export function Navbar({
   setIdentity,
 }: {
   setIdentity: React.Dispatch<React.SetStateAction<Identity | undefined>>
@@ -54,6 +53,7 @@ function Auth({
     setSignedIn(false)
     setPrincipal("")
     setIdentity(undefined)
+    window.location.href = "/"
   }
 
   useEffect(() => {
@@ -63,7 +63,7 @@ function Auth({
   return (
     <div className="navbar bg-neutral text-neutral-content">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">The Wall</a>
+        <a className="btn btn-ghost normal-case text-xl" href="/">The Wall</a>
         <p className="text-xs">A Motoko Bootcamp Initiative</p>
       </div>
       <div className="flex-none gap-2">
@@ -93,7 +93,7 @@ function Auth({
               </label>
               <ul
                 tabIndex={0}
-                className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+                className="mt-3 p-2 shadow menu menu-compact dropdown-content rounded-box w-52 bg-neutral"
               >
                 <li onClick={signOut}>
                   <a>Logout</a>
@@ -106,5 +106,3 @@ function Auth({
     </div>
   )
 }
-
-export { Auth }

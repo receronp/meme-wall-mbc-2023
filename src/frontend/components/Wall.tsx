@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { canisterId, createActor, wall } from "../../declarations/wall"
-import { Content, Message, _SERVICE } from "../../declarations/wall/wall.did"
+import { Message, _SERVICE } from "../../declarations/wall/wall.did"
 import { ActorSubclass, Identity } from "@dfinity/agent"
+import { getContent } from "../utils/ContentUtil"
 
 export function Wall({
   identity,
-  newContent,
-  updateContent,
+  authWall,
+  setAuthWall,
 }: {
   identity: Identity | undefined
-  newContent: Content | undefined
-  updateContent: Content | undefined
+  authWall: ActorSubclass<_SERVICE> | undefined
+  setAuthWall: React.Dispatch<
+    React.SetStateAction<ActorSubclass<_SERVICE> | undefined>
+  >
 }) {
-  const [index, setIndex] = useState<bigint>(BigInt(0))
   const [messages, setMessages] = useState<Message[]>()
-  const [authenticatedWall, setAuthenticatedWall] =
-    useState<ActorSubclass<_SERVICE>>()
 
   useEffect(() => {
     refreshWall()
   }, [])
 
   useEffect(() => {
-    setAuthenticatedWall(
+    setAuthWall(
       createActor(canisterId, {
         agentOptions: {
           identity,
@@ -33,16 +34,13 @@ export function Wall({
   }, [identity])
 
   const refreshWall = async () => {
-    const actor = authenticatedWall ?? wall
+    const actor = authWall ?? wall
     const res = await actor.getAllMessagesRanked()
-    res.forEach((i) => {
-      console.log(i.creator.toString())
-    })
     setMessages(res)
   }
 
   const onVote = async (upVote: boolean, index: bigint) => {
-    const actor = authenticatedWall ?? wall
+    const actor = authWall ?? wall
     if (upVote) {
       await actor.upVote(index)
     } else {
@@ -52,42 +50,27 @@ export function Wall({
   }
 
   const onDelete = async (index: bigint) => {
-    const actor = authenticatedWall ?? wall
+    const actor = authWall ?? wall
     await actor.deleteMessage(index)
     refreshWall()
   }
 
-  const onNew = async (content: any) => {
-    const actor = authenticatedWall ?? wall
-    await actor.writeMessage(content)
-    refreshWall()
-  }
-
-  useEffect(() => {
-    onNew(newContent)
-  }, [newContent])
-
-  const onUpdate = async (index: bigint, content: any) => {
-    const actor = authenticatedWall ?? wall
-    await actor.updateMessage(index, content)
-    refreshWall()
-  }
-
-  useEffect(() => {
-    onUpdate(index, updateContent)
-  }, [updateContent])
-
   return (
     <div className="container mx-auto py-2">
-      <div className="grid grid-cols-5 gap-2 my-4">
+      <div className="grid grid-cols-4 gap-2 my-4">
         <div>
-        <h1 className="text-xl font-bold">Messages</h1>
+          <h1 className="text-xl font-bold">Messages</h1>
         </div>
-        <div className="col-span-3"></div>
+        <div className="col-span-2"></div>
         <div>
-          <label htmlFor="my-modal-1" className="btn btn-success btn-sm">
-            New message
-          </label>
+          <div
+            className={!identity ? "tooltip" : undefined}
+            data-tip="Login is needed"
+          >
+            <button disabled={!identity} className="btn btn-success btn-sm">
+              <Link to={`content/`}>New Message</Link>
+            </button>
+          </div>
         </div>
       </div>
       <div className="overflow-y-auto h-96">
@@ -105,45 +88,60 @@ export function Wall({
             {messages?.map((msg, i) => {
               return (
                 <tr key={i}>
-                  <td>{JSON.stringify(msg.content)}</td>
+                  <td>{getContent(msg.content) as string}</td>
                   <td>{msg.creator.toString()}</td>
                   <td className="flex">
-                    <button
-                      className="mx-1"
-                      onClick={() => {
-                        onVote(true, msg.id)
-                      }}
+                    <div
+                      className={!identity ? "tooltip" : undefined}
+                      data-tip="Login is needed"
                     >
-                      🔼
-                    </button>
-                    <button
-                      className="mx-1"
-                      onClick={() => {
-                        onVote(false, msg.id)
-                      }}
-                    >
-                      🔽
-                    </button>
+                      <button
+                        disabled={!identity}
+                        className="mx-1"
+                        onClick={() => {
+                          onVote(true, msg.id)
+                        }}
+                      >
+                        🔼
+                      </button>
+                      <button
+                        disabled={!identity}
+                        className="mx-1"
+                        onClick={() => {
+                          onVote(false, msg.id)
+                        }}
+                      >
+                        🔽
+                      </button>
+                    </div>
                     <span>{msg.vote.toString()}</span>
                   </td>
                   <td>
-                    <label
-                      onClick={() => {
-                        setIndex(msg.id)
-                      }}
-                      htmlFor="my-modal-2"
-                      className="btn btn-xs btn-warning"
+                    <div
+                      className={!identity ? "tooltip" : undefined}
+                      data-tip="Login is needed"
                     >
-                      update
-                    </label>
+                      <button
+                        disabled={!identity}
+                        className="btn btn-xs btn-warning"
+                      >
+                        <Link to={`content/${msg.id}`}>update</Link>
+                      </button>
+                    </div>
                   </td>
                   <td>
-                    <button
-                      onClick={() => onDelete(msg.id)}
-                      className="btn btn-xs btn-error"
+                    <div
+                      className={!identity ? "tooltip" : undefined}
+                      data-tip="Login is needed"
                     >
-                      delete
-                    </button>
+                      <button
+                        disabled={!identity}
+                        onClick={() => onDelete(msg.id)}
+                        className="btn btn-xs btn-error"
+                      >
+                        delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )

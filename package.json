@@ -18,12 +18,15 @@
     "@dfinity/authentication": "^0.14.2",
     "@dfinity/identity": "^0.15.6",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-router-dom": "^6.11.1"
   },
   "devDependencies": {
     "@dfinity/agent": "^0.15.6",
     "@dfinity/candid": "^0.15.6",
     "@dfinity/principal": "^0.15.6",
+    "@tailwindcss/forms": "^0.5.3",
     "@types/node": "^20.1.4",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
@@ -36,6 +39,6 @@
     "postcss": "^8.4.23",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
-    "vite": "^4.3.5"
+    "vite": "^4.3.6"
   }
 }
