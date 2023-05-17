@@ -2,14 +2,16 @@ import React, { ReactNode, useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { ActorSubclass, Identity } from "@dfinity/agent"
+import LoginTooltip from "../components/LoginTooltip"
+import LoadingContent from "../components/LoadingContent"
 import { wall } from "../../declarations/wall"
 import { Content, Result, _SERVICE } from "../../declarations/wall/wall.did"
-import LoginTooltip from "../components/LoginTooltip"
+
 ;(BigInt.prototype as any).toJSON = function () {
   return this.toString()
 }
 
-export function ContentPage({
+export default function EditPage({
   authWall,
   identity,
 }: {
@@ -21,10 +23,11 @@ export function ContentPage({
   const {
     register,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm<{ content: Content }>()
   const [loading, setLoading] = useState<boolean>(false)
-  const [contentType, setContentType] = useState<string>("text")
+  const [contentType, setContentType] = useState<string>("image")
 
   useEffect(() => {
     const getMessage = async () => {
@@ -93,30 +96,45 @@ export function ContentPage({
     navigate("/")
   }
 
-  type CardProps = {
+  type EditProps = {
     title: string | undefined
     children?: ReactNode | undefined
   }
 
-  const GenericCard: React.FC<CardProps> = ({ title, children }) => {
+  const EditCard: React.FC<EditProps> = ({ title, children }) => {
     return (
       <div className="card w-auto bg-base-100 shadow-xl">
         <div className="card-body text-center">
           <h2 className="card-title">{title}</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             {children}
-            <div className="grid grid-cols-2">
-              {errors.content ? (
+            <div>
+              {errors.content && (
                 <div>
                   <span className="text-primary">This field is required</span>
                 </div>
-              ) : (
-                <div></div>
               )}
               <div>
-                <LoginTooltip display={!identity} message="Login is needed">
+                <LoginTooltip
+                  display={
+                    !identity ||
+                    (key !== undefined &&
+                      (contentType == "image" || contentType == "survey"))
+                  }
+                  message={
+                    !identity
+                      ? "Login is needed"
+                      : contentType == "image"
+                      ? "Image content cannot be updated"
+                      : "Survey content cannot be updated"
+                  }
+                >
                   <input
-                    disabled={!identity}
+                    disabled={
+                      !identity ||
+                      (key !== undefined &&
+                        (contentType == "image" || contentType == "survey"))
+                    }
                     className="btn mx-4"
                     type="submit"
                   />
@@ -129,94 +147,93 @@ export function ContentPage({
     )
   }
 
-  const TextCard = () => {
+  const EditTextCard = () => {
     return (
-      <GenericCard title="Message Text Content">
+      <EditCard title="Message Text Content">
         <textarea
+          autoFocus
           placeholder="Text content"
           className="textarea textarea-bordered w-full my-2"
           {...register("content.Text", { required: true })}
         ></textarea>
-      </GenericCard>
+      </EditCard>
     )
   }
 
-  const ImageCard = () => {
+  const EditImageCard = () => {
     return (
-      <GenericCard title="Message Image Content">
+      <EditCard title="Message Image Content">
         <input
+          autoFocus
           type="file"
           className="file-input file-input-bordered w-full max-w-xs my-2"
           {...register("content.Image", { required: true })}
         />
-      </GenericCard>
+      </EditCard>
     )
   }
 
-  const SurveyCard = () => {
+  const EditSurveyCard = () => {
     return (
-      <GenericCard title="Message Survey Content">
+      <EditCard title="Message Survey Content">
         <input
+          autoFocus
           type="text"
           placeholder="Survey title"
           className="input w-full max-w-xs input-bordered input-primary my-2"
           {...register("content.Survey.title", { required: true })}
         />
-      </GenericCard>
+      </EditCard>
     )
   }
 
   return (
     <>
       {loading ? (
-        <div className="hero bg-base-200" style={{ minHeight: "82vh" }}>
-          <div className="hero-content text-center">
-            <div className="max-w-md">
-              <progress className="progress w-56"></progress>
-            </div>
-          </div>
-        </div>
+        <LoadingContent />
       ) : (
-        <div className="container mx-auto py-2">
-          <div className="grid grid-cols-3">
-            <div></div>
-            <div>
-              <div className="flex my-2">
-                <div className="btn-group btn-group-vertical lg:btn-group-horizontal">
-                  <button
-                    className={contentType == "text" ? "btn btn-active" : "btn"}
-                    onClick={() => setContentType("text")}
-                  >
-                    Text
-                  </button>
-                  <button
-                    className={
-                      contentType == "image" ? "btn btn-active" : "btn"
-                    }
-                    onClick={() => setContentType("image")}
-                  >
-                    Image
-                  </button>
-                  <button
-                    className={
-                      contentType == "survey" ? "btn btn-active" : "btn"
-                    }
-                    onClick={() => setContentType("survey")}
-                  >
-                    Survey
-                  </button>
-                </div>
-              </div>
-              {contentType == "text" ? (
-                <TextCard />
-              ) : contentType == "image" ? (
-                <ImageCard />
-              ) : (
-                <SurveyCard />
-              )}
+        <div className="container mx-auto py-10">
+          <div className="flex my-2">
+            <div className="btn-group btn-group-horizontal">
+              <button
+                disabled={key !== undefined}
+                className={contentType == "text" ? "btn btn-active" : "btn"}
+                onClick={() => {
+                  setContentType("text")
+                  clearErrors("content")
+                }}
+              >
+                Text
+              </button>
+              <button
+                disabled={key !== undefined}
+                className={contentType == "image" ? "btn btn-active" : "btn"}
+                onClick={() => {
+                  setContentType("image")
+                  clearErrors("content")
+                }}
+              >
+                Image
+              </button>
+              <button
+                disabled={key !== undefined}
+                className={contentType == "survey" ? "btn btn-active" : "btn"}
+                onClick={() => {
+                  setContentType("survey")
+                  clearErrors("content")
+                }}
+              >
+                Survey
+              </button>
             </div>
-            <div></div>
           </div>
+          {contentType == "text" ? (
+            <EditTextCard />
+          ) : contentType == "image" ? (
+            <EditImageCard />
+          ) : (
+            <EditSurveyCard />
+          )}
         </div>
       )}
     </>

@@ -4,8 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import Wall from "./routes/Wall"
+import EditPage from "./routes/EditPage"
 import ErrorPage from "./error-page"
-import { ContentPage } from "./routes/ContentPage"
 import { ActorSubclass, Identity } from "@dfinity/agent"
 import { _SERVICE } from "../declarations/wall/wall.did"
 
@@ -20,12 +20,12 @@ function App() {
       errorElement: <ErrorPage />,
     },
     {
-      path: "/content",
-      element: <ContentPage authWall={authWall} identity={identity}/>,
+      path: "/post",
+      element: <EditPage authWall={authWall} identity={identity}/>,
     },
     {
-      path: "/content/:key",
-      element: <ContentPage authWall={authWall} identity={identity}/>,
+      path: "/post/:key",
+      element: <EditPage authWall={authWall} identity={identity}/>,
     },
   ])
 

@@ -62,48 +62,53 @@ export default function Navbar({
   }, [])
 
   return (
-    <div className="navbar bg-neutral text-neutral-content">
-      <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl" href="/">
-          <img className="w-48" src={memeWall}></img>
-        </a>
-      </div>
-      <div className="flex-none gap-2">
-        {!signedIn && client && (
-          <div className="dropdown dropdown-end">
-            <div className="navbar-end btn btn-wide">
-              <button onClick={signIn} className="flex space-x-2 items-center">
-                <span>Login with Internet Identity</span>
-                <img
-                  style={{
-                    width: "33px",
-                  }}
-                  src={dfinityLogo}
-                />
-              </button>
-            </div>
-          </div>
-        )}
-        {signedIn && (
-          <>
-            <div>Signed in as: {principal}</div>
+    <div className="navbar bg-neutral text-neutral-content fixed top-0 z-10">
+      <div className="grid w-full grid-cols-2">
+        <div className="flex-1">
+          <a className="btn btn-ghost normal-case text-xl" href="/">
+            <img className="w-48" src={memeWall}></img>
+          </a>
+        </div>
+        <div className="inline-flex justify-end">
+          {!signedIn && client && (
             <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost">
-                <div className="w-10 rounded-full">
-                  <img src={dfinityLogo} />
-                </div>
-              </label>
-              <ul
-                tabIndex={0}
-                className="mt-3 p-2 shadow menu menu-compact dropdown-content rounded-box w-52 bg-neutral"
-              >
-                <li onClick={signOut}>
-                  <a>Logout</a>
-                </li>
-              </ul>
+              <div className="navbar-end btn btn-wide">
+                <button
+                  onClick={signIn}
+                  className="flex space-x-2 items-center"
+                >
+                  <span>Login with Internet Identity</span>
+                  <img
+                    style={{
+                      width: "33px",
+                    }}
+                    src={dfinityLogo}
+                  />
+                </button>
+              </div>
             </div>
-          </>
-        )}
+          )}
+          {signedIn && (
+            <>
+              <div className="hidden lg:block">Signed in as: {principal}</div>
+              <div className="dropdown dropdown-end">
+                <label tabIndex={0} className="btn btn-ghost">
+                  <div className="w-10 rounded-full">
+                    <img src={dfinityLogo} />
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="mt-3 p-2 shadow menu menu-compact dropdown-content rounded-box w-52 bg-neutral"
+                >
+                  <li onClick={signOut}>
+                    <a>Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   )

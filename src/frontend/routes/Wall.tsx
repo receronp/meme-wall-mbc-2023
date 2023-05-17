@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { ActorSubclass, Identity } from "@dfinity/agent"
+import ContentCard from "../components/ContentCard"
+import LoginTooltip from "../components/LoginTooltip"
+import LoadingContent from "../components/LoadingContent"
 import { canisterId, createActor, wall } from "../../declarations/wall"
 import { Message, _SERVICE } from "../../declarations/wall/wall.did"
-import { ActorSubclass, Identity } from "@dfinity/agent"
-import { getContentString } from "../utils/ContentUtil"
-import LoginTooltip from "../components/LoginTooltip"
 
 export default function Wall({
   identity,
@@ -41,175 +42,43 @@ export default function Wall({
     setMessages(res)
   }
 
-  const onVote = async (upVote: boolean, index: bigint) => {
-    setLoading(true)
-    const actor = authWall ?? wall
-    if (upVote) {
-      await actor.upVote(index)
-    } else {
-      await actor.downVote(index)
-    }
-    refreshWall()
-    setLoading(false)
-  }
-
-  const onDelete = async (index: bigint) => {
-    setLoading(true)
-    const actor = authWall ?? wall
-    await actor.deleteMessage(index)
-    refreshWall()
-    setLoading(false)
-  }
-
   return (
     <>
       {loading ? (
-        <div className="hero bg-base-200" style={{ minHeight: "82vh" }}>
-          <div className="hero-content text-center">
-            <div className="max-w-md">
-              <progress className="progress w-56"></progress>
-            </div>
-          </div>
-        </div>
+        <LoadingContent />
       ) : (
-        <div className="container mx-auto py-2">
-          <div className="grid grid-cols-4 gap-2 my-4">
-            <div>
-              <h1 className="text-xl font-bold">Messages</h1>
+        <div className="container mx-auto py-10">
+          <div className="grid lg:fixed lg:right-10 lg:top-32">
+            <div className="stats shadow h-16 bg-base-200">
+              <div className="stat">
+                <div className="stat-title text-xs">Price of ICP</div>
+                <div className="stat-value text-primary text-xl">USDT $5.35966</div>
+              </div>
             </div>
-            <div className="col-span-2"></div>
-            <div>
+            <div className="my-4 flex justify-end">
               <LoginTooltip display={!identity} message="Login is needed">
                 <button disabled={!identity} className="btn btn-success btn-sm">
-                  <Link to={`content/`}>New Message</Link>
+                  <Link to={`post/`}>New Post</Link>
                 </button>
               </LoginTooltip>
             </div>
           </div>
-          <div className="overflow-y-auto h-96">
-            <table className="table w-full overflow-scroll">
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Content</th>
-                  <th>Creator</th>
-                  <th>Vote</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {messages?.map((msg, i) => {
-                  return (
-                    <tr key={i}>
-                      {"Text" in msg.content ? (
-                        <>
-                          <td>{"TEXT"}</td>
-                          <td>
-                            <span>{msg.content.Text}</span>
-                          </td>
-                        </>
-                      ) : "Image" in msg.content ? (
-                        <>
-                          <td>{"IMAGE"}</td>
-                          <td>
-                            <img
-                              className="cardMedia-media"
-                              src={getContentString(msg.content)}
-                            />
-                          </td>
-                        </>
-                      ) : (
-                        <>
-                          <td>{"SURVEY"}</td>
-                          <td>
-                            <span>{getContentString(msg.content)}</span>
-                          </td>
-                        </>
-                      )}
-                      <td>{msg.creator.toString()}</td>
-                      <td>
-                        <div className="grid grid-rows-2">
-                          <LoginTooltip
-                            display={!identity}
-                            message="Login is needed"
-                          >
-                            <button
-                              disabled={!identity}
-                              className="mx-1"
-                              onClick={() => {
-                                onVote(true, msg.id)
-                              }}
-                            >
-                              🔼
-                            </button>
-                            <button
-                              disabled={!identity}
-                              className="mx-1"
-                              onClick={() => {
-                                onVote(false, msg.id)
-                              }}
-                            >
-                              🔽
-                            </button>
-                          </LoginTooltip>
-                          <div className="items-center text-center">
-                            <span>{msg.vote.toString()}</span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <LoginTooltip
-                          display={
-                            !(
-                              identity?.getPrincipal().toText() ==
-                              msg.creator.toText()
-                            )
-                          }
-                          message="Request creator to update"
-                        >
-                          <button
-                            disabled={
-                              !(
-                                identity?.getPrincipal().toText() ==
-                                msg.creator.toText()
-                              )
-                            }
-                            className="btn btn-xs btn-warning"
-                          >
-                            <Link to={`content/${msg.id}`}>update</Link>
-                          </button>
-                        </LoginTooltip>
-                      </td>
-                      <td>
-                        <LoginTooltip
-                          display={
-                            !(
-                              identity?.getPrincipal().toText() ==
-                              msg.creator.toText()
-                            )
-                          }
-                          message="Request creator to delete"
-                        >
-                          <button
-                            disabled={
-                              !(
-                                identity?.getPrincipal().toText() ==
-                                msg.creator.toText()
-                              )
-                            }
-                            onClick={() => onDelete(msg.id)}
-                            className="btn btn-xs btn-error"
-                          >
-                            delete
-                          </button>
-                        </LoginTooltip>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+          <div className="grid">
+            <div className="col-span-4">
+              {messages?.map((msg, i) => {
+                return (
+                  <div key={i} className="grid place-content-center my-4">
+                    <ContentCard
+                      message={msg}
+                      identity={identity}
+                      refreshWall={refreshWall}
+                      authWall={authWall}
+                      setLoading={setLoading}
+                    />
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       )}

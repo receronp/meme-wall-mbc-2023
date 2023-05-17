@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 122.88 122.88"
+   version="1.1"
+   sodipodi:docname="like-button-black-icon.svg"
+   inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview13"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.920573"
+     inkscape:cx="61.439999"
+     inkscape:cy="61.439999"
+     inkscape:window-width="1309"
+     inkscape:window-height="456"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Layer_1" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1,.cls-2{fill-rule:evenodd;}.cls-2{fill:#fff;}</style>
+  </defs>
+  <title
+     id="title6">like-button-black</title>
+  <path
+     id="path8"
+     class="cls-1"
+     d="M 61.439453 0 A 61.44 61.44 0 0 0 0 61.439453 A 61.44 61.44 0 1 0 61.439453 0 z M 62.765625 29.263672 C 65.991132 29.192941 71.037422 33.855163 71.490234 40.589844 A 40.41 40.41 0 0 1 70.679688 50.519531 L 84.289062 50.519531 C 89.939057 50.749531 94.880622 54.799225 91.390625 61.449219 C 92.190624 64.349216 92.310388 67.749611 90.150391 69.099609 C 90.42039 73.669605 89.149295 76.510002 86.779297 78.75 A 11.42 11.42 0 0 1 85 84.630859 C 83.170002 87.210857 81.690544 86.630859 78.810547 86.630859 L 55.810547 86.630859 C 52.170551 86.630859 50.190544 85.630856 47.810547 82.630859 L 47.810547 57 C 54.72054 55.170002 58.359221 45.800384 60.199219 39.650391 L 60.199219 31.679688 C 60.519843 30.042814 61.50347 29.291349 62.765625 29.263672 z M 32.5 53.390625 L 43.060547 53.390625 A 2.18 2.18 0 0 1 45.230469 55.570312 L 45.230469 84.519531 A 2.19 2.19 0 0 1 43.060547 86.699219 L 32.5 86.699219 A 2.19 2.19 0 0 1 30.320312 84.519531 L 30.320312 55.570312 A 2.19 2.19 0 0 1 32.5 53.390625 z " />
+</svg>

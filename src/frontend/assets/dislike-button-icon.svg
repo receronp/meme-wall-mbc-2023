@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 122.88 122.88"
+   version="1.1"
+   sodipodi:docname="dislike-button-black-icon.svg"
+   inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview13"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.920573"
+     inkscape:cx="61.439999"
+     inkscape:cy="61.439999"
+     inkscape:window-width="1309"
+     inkscape:window-height="456"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Layer_1" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1,.cls-2{fill-rule:evenodd;}.cls-2{fill:#fff;}</style>
+  </defs>
+  <title
+     id="title6">dislike-button-black</title>
+  <path
+     id="path8"
+     class="cls-1"
+     d="M 61.439453 0 A 61.44 61.44 0 0 0 0 61.439453 A 61.44 61.44 0 1 0 61.439453 0 z M 32.5 39.349609 L 43.060547 39.349609 A 2.18 2.18 0 0 1 45.230469 41.529297 L 45.230469 70.480469 A 2.18 2.18 0 0 1 43.060547 72.660156 L 32.5 72.660156 L 32.5 72.710938 A 2.19 2.19 0 0 1 30.320312 70.529297 L 30.320312 41.529297 A 2.19 2.19 0 0 1 32.5 39.349609 z M 80.734375 39.369141 C 82.451405 39.326953 83.627501 39.484924 85 41.419922 A 11.39 11.39 0 0 1 86.779297 47.300781 C 89.149295 49.540779 90.42039 52.379223 90.150391 56.949219 C 92.310388 58.299217 92.190624 61.699612 91.390625 64.599609 C 94.880622 71.249603 89.939057 75.299297 84.289062 75.529297 L 70.679688 75.529297 A 40.41 40.41 0 0 1 71.490234 85.460938 C 70.860235 94.830928 61.339218 100.18913 60.199219 94.369141 L 60.199219 86.400391 C 58.359221 80.250397 54.72054 70.879998 47.810547 69 L 47.810547 43.419922 C 50.190544 40.419925 52.170551 39.419922 55.810547 39.419922 L 78.810547 39.419922 C 79.530546 39.419922 80.162032 39.383203 80.734375 39.369141 z " />
+</svg>
