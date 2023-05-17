@@ -1,17 +1,18 @@
-import { Identity } from "@dfinity/agent"
 import React, { ReactNode } from "react"
 
 type LoginProps = {
-  identity: Identity | undefined
+  display: boolean | undefined
+  message: string | undefined
   children?: ReactNode | undefined
 }
 
-const LoginTooltip: React.FC<LoginProps> = ({ identity, children }) => {
+const LoginTooltip: React.FC<LoginProps> = ({
+  display,
+  message,
+  children,
+}) => {
   return (
-    <div
-      className={!identity ? "tooltip" : undefined}
-      data-tip="Login is needed"
-    >
+    <div className={display ? "tooltip" : undefined} data-tip={message}>
       {children}
     </div>
   )

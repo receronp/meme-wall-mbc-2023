@@ -85,7 +85,9 @@ export function ContentPage({
       }
       console.log(res)
     } else {
-      console.log("There seems to be an issue with the agent for the backend canister.")
+      console.log(
+        "There seems to be an issue with the agent for the backend canister.",
+      )
     }
     setLoading(true)
     navigate("/")
@@ -112,7 +114,7 @@ export function ContentPage({
                 <div></div>
               )}
               <div>
-                <LoginTooltip identity={identity}>
+                <LoginTooltip display={!identity} message="Login is needed">
                   <input
                     disabled={!identity}
                     className="btn mx-4"

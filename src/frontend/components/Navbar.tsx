@@ -67,7 +67,6 @@ export default function Navbar({
         <a className="btn btn-ghost normal-case text-xl" href="/">
           <img className="w-48" src={memeWall}></img>
         </a>
-        <p className="text-xs">A Motoko Bootcamp Initiative</p>
       </div>
       <div className="flex-none gap-2">
         {!signedIn && client && (

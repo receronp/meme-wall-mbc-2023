@@ -11,8 +11,8 @@ export default function Footer() {
       </div>
       <div>
         <p>
-          Copyright © {new Date().getFullYear()} - All right reserved by{" "}
-          <a href="https://github.com/receronp">receronp</a>
+          Copyright © {new Date().getFullYear()} - A Motoko Bootcamp Initiative
+          by <a href="https://github.com/receronp">receronp</a>
         </p>
       </div>
       <div></div>

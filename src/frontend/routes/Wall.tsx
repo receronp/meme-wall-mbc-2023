@@ -79,7 +79,7 @@ export default function Wall({
             </div>
             <div className="col-span-2"></div>
             <div>
-              <LoginTooltip identity={identity}>
+              <LoginTooltip display={!identity} message="Login is needed">
                 <button disabled={!identity} className="btn btn-success btn-sm">
                   <Link to={`content/`}>New Message</Link>
                 </button>
@@ -115,7 +115,7 @@ export default function Wall({
                           <td>
                             <img
                               className="cardMedia-media"
-                              src={getContentString(msg.content) as string}
+                              src={getContentString(msg.content)}
                             />
                           </td>
                         </>
@@ -130,7 +130,10 @@ export default function Wall({
                       <td>{msg.creator.toString()}</td>
                       <td>
                         <div className="grid grid-rows-2">
-                          <LoginTooltip identity={identity}>
+                          <LoginTooltip
+                            display={!identity}
+                            message="Login is needed"
+                          >
                             <button
                               disabled={!identity}
                               className="mx-1"
@@ -156,9 +159,22 @@ export default function Wall({
                         </div>
                       </td>
                       <td>
-                        <LoginTooltip identity={identity}>
+                        <LoginTooltip
+                          display={
+                            !(
+                              identity?.getPrincipal().toText() ==
+                              msg.creator.toText()
+                            )
+                          }
+                          message="Request creator to update"
+                        >
                           <button
-                            disabled={!identity}
+                            disabled={
+                              !(
+                                identity?.getPrincipal().toText() ==
+                                msg.creator.toText()
+                              )
+                            }
                             className="btn btn-xs btn-warning"
                           >
                             <Link to={`content/${msg.id}`}>update</Link>
@@ -166,9 +182,22 @@ export default function Wall({
                         </LoginTooltip>
                       </td>
                       <td>
-                        <LoginTooltip identity={identity}>
+                        <LoginTooltip
+                          display={
+                            !(
+                              identity?.getPrincipal().toText() ==
+                              msg.creator.toText()
+                            )
+                          }
+                          message="Request creator to delete"
+                        >
                           <button
-                            disabled={!identity}
+                            disabled={
+                              !(
+                                identity?.getPrincipal().toText() ==
+                                msg.creator.toText()
+                              )
+                            }
                             onClick={() => onDelete(msg.id)}
                             className="btn btn-xs btn-error"
                           >
