@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { AuthClient } from "@dfinity/auth-client"
-import dfinityLogo from "../assets/favicon.svg"
 import { Identity } from "@dfinity/agent"
+import { AuthClient } from "@dfinity/auth-client"
+import dfinityLogo from "../assets/dfinity-logo.svg"
+import memeWall from "../assets/meme-wall.svg"
 
 export default function Navbar({
   setIdentity,
@@ -63,7 +64,9 @@ export default function Navbar({
   return (
     <div className="navbar bg-neutral text-neutral-content">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl" href="/">The Wall</a>
+        <a className="btn btn-ghost normal-case text-xl" href="/">
+          <img className="w-48" src={memeWall}></img>
+        </a>
         <p className="text-xs">A Motoko Bootcamp Initiative</p>
       </div>
       <div className="flex-none gap-2">
