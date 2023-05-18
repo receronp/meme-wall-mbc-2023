@@ -7,7 +7,7 @@ import LoadingContent from "../components/LoadingContent"
 import { wall } from "../../declarations/wall"
 import { Content, Result, _SERVICE } from "../../declarations/wall/wall.did"
 
-;(BigInt.prototype as any).toJSON = function () {
+(BigInt.prototype as any).toJSON = function () {
   return this.toString()
 }
 
@@ -64,16 +64,16 @@ export default function EditPage({
       if (contentType == "text" && "Text" in data.content) {
         res = key
           ? await authWall.updateMessage(BigInt(key), {
-              Text: data.content.Text,
-            })
+            Text: data.content.Text,
+          })
           : await authWall.writeMessage({ Text: data.content.Text })
       } else if (contentType == "image" && "Image" in data.content) {
         const image: any = data.content.Image[0]
         const imageByteData = [...new Uint8Array(await image.arrayBuffer())]
         res = key
           ? await authWall.updateMessage(BigInt(key), {
-              Image: imageByteData,
-            })
+            Image: imageByteData,
+          })
           : await authWall.writeMessage({ Image: imageByteData })
       } else if (contentType == "survey" && "Survey" in data.content) {
         const survey = data.content.Survey
@@ -92,7 +92,7 @@ export default function EditPage({
         "There seems to be an issue with the agent for the backend canister.",
       )
     }
-    setLoading(true)
+    setLoading(false)
     navigate("/")
   }
 
@@ -125,8 +125,8 @@ export default function EditPage({
                     !identity
                       ? "Login is needed"
                       : contentType == "image"
-                      ? "Image content cannot be updated"
-                      : "Survey content cannot be updated"
+                        ? "Image content cannot be updated"
+                        : "Survey content cannot be updated"
                   }
                 >
                   <input
@@ -135,7 +135,7 @@ export default function EditPage({
                       (key !== undefined &&
                         (contentType == "image" || contentType == "survey"))
                     }
-                    className="btn mx-4"
+                    className="btn mx-4 float-right lg:float-none"
                     type="submit"
                   />
                 </LoginTooltip>

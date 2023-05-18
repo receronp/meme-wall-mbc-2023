@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import Wall from "./routes/Wall"
 import EditPage from "./routes/EditPage"
+import SurveyPage from "./routes/SurveyPage"
 import ErrorPage from "./error-page"
 import { ActorSubclass, Identity } from "@dfinity/agent"
 import { _SERVICE } from "../declarations/wall/wall.did"
@@ -26,6 +27,10 @@ function App() {
     {
       path: "/post/:key",
       element: <EditPage authWall={authWall} identity={identity}/>,
+    },
+    {
+      path: "/survey/:key",
+      element: <SurveyPage authWall={authWall} identity={identity}/>,
     },
   ])
 

@@ -13,7 +13,7 @@ export default function Footer() {
         <div>
           <p>
             Copyright © {new Date().getFullYear()} - A Motoko Bootcamp
-            Initiative by <a href="https://github.com/receronp">receronp</a>
+            Initiative by <a className="text-accent-focus" href="https://github.com/receronp">receronp</a>
           </p>
         </div>
       </div>

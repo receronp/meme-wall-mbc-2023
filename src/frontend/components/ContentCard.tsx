@@ -1,9 +1,10 @@
 import React, { ReactNode } from "react"
+import { Link } from "react-router-dom"
 import { ActorSubclass, Identity } from "@dfinity/agent"
 import { getContentString } from "../utils/ContentUtil"
 import { wall } from "../../declarations/wall"
 import { Message, _SERVICE } from "../../declarations/wall/wall.did"
-import { Link } from "react-router-dom"
+import BaseCard from "./BaseCard"
 
 export default function ContentCard({
   message,
@@ -38,14 +39,6 @@ export default function ContentCard({
     setLoading(false)
   }
 
-  const BaseCard = ({ children }: { children: ReactNode | undefined }) => {
-    return (
-      <>
-        <div className="card w-96 bg-base-200 shadow-xl">{children}</div>
-      </>
-    )
-  }
-
   const AuthorCardActions = ({
     msg,
     canUpdate,
@@ -55,6 +48,10 @@ export default function ContentCard({
   }) => {
     return (
       <>
+        {!!identity && "Survey" in message.content &&
+          <button className="btn btn-xs btn-info">
+            <Link to={`survey/${msg.id}`}>survey</Link>
+          </button>}
         {identity?.getPrincipal().toText() == msg.creator.toText() && (
           <>
             {canUpdate ? (
@@ -119,10 +116,10 @@ export default function ContentCard({
       <>
         <div className="grid grid-cols-2">
           <div className="card-actions">
-            <UserCardActions msg={message} />
+            <UserCardActions msg={msg} />
           </div>
           <div className="card-actions justify-end">
-            <AuthorCardActions msg={message} canUpdate={canUpdate} />
+            <AuthorCardActions msg={msg} canUpdate={canUpdate} />
           </div>
         </div>
       </>
@@ -135,7 +132,7 @@ export default function ContentCard({
         <BaseCard>
           <div className="card-body">
             <div className="grid grid-cols-2 card-title">
-              <h2>Text Message</h2>
+              <h2 className="text-primary">Text</h2>
               <p className="text-sm text-right">
                 Vote Diff: {message.vote.toString()}
               </p>
@@ -161,7 +158,7 @@ export default function ContentCard({
           </figure>
           <div className="card-body">
             <div className="grid grid-cols-2 card-title">
-              <h2>Image Message</h2>
+              <h2 className="text-secondary">Image</h2>
               <p className="text-sm text-right">
                 Vote Diff: {message.vote.toString()}
               </p>
@@ -172,16 +169,14 @@ export default function ContentCard({
                 {message.creator.toString()}
               </span>
             </p>
-            <div className="card-actions justify-end">
-              <AuthorCardActions msg={message} canUpdate={false} />
-            </div>
+            <CardActions msg={message} canUpdate={true} />
           </div>
         </BaseCard>
       ) : (
         <BaseCard>
           <div className="card-body">
             <div className="grid grid-cols-2 card-title">
-              <h2>Survey Message</h2>
+              <h2 className="text-accent">Survey</h2>
               <p className="text-sm text-right">
                 Vote Diff: {message.vote.toString()}
               </p>
@@ -194,9 +189,7 @@ export default function ContentCard({
                 {message.creator.toString()}
               </span>
             </div>
-            <div className="card-actions justify-end">
-              <AuthorCardActions msg={message} canUpdate={false} />
-            </div>
+            <CardActions msg={message} canUpdate={false} />
           </div>
         </BaseCard>
       )}

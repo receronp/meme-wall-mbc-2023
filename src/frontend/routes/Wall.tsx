@@ -48,14 +48,14 @@ export default function Wall({
         <LoadingContent />
       ) : (
         <div className="container mx-auto py-10">
-          <div className="grid lg:fixed lg:right-10 lg:top-32">
+          <div className="grid mx-2 lg:fixed lg:right-10 lg:top-32">
             <div className="stats shadow h-16 bg-base-200">
               <div className="stat">
                 <div className="stat-title text-xs">Price of ICP</div>
-                <div className="stat-value text-primary text-xl">USDT $5.35966</div>
+                <div className="stat-value text-primary text-xl">USDT $5.2063</div>
               </div>
             </div>
-            <div className="my-4 flex justify-end">
+            <div className="my-2 lg:my-4 flex justify-end">
               <LoginTooltip display={!identity} message="Login is needed">
                 <button disabled={!identity} className="btn btn-success btn-sm">
                   <Link to={`post/`}>New Post</Link>
