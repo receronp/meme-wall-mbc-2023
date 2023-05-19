@@ -21,7 +21,6 @@ export default function Wall({
   const [messages, setMessages] = useState<Message[]>()
   const [loading, setLoading] = useState<boolean>(false)
   const [price, setPrice] = useState<string>("")
-  const [remaining, setRemaining] = useState<number>(10)
 
   useEffect(() => {
     refreshWall()
@@ -29,12 +28,8 @@ export default function Wall({
     const interval10 = setInterval(() => {
       refreshPrice()
     }, 1000 * 10);
-    const interval1 = setInterval(() => {
-      setRemaining(remaining => remaining == 0 ? 10 : remaining - 1)
-    }, 1000);
     return () => {
       clearInterval(interval10)
-      clearInterval(interval1)
     };
   }, [])
 
@@ -71,14 +66,13 @@ export default function Wall({
           <div className="grid mx-2 lg:fixed lg:right-10 lg:top-32">
             <div className="stats shadow h-20 bg-base-200">
               <div className="stat">
-                <div className="stat-title text-xs">Price of ICP</div>
-                <div className="stat-value text-primary text-xl">USDT ${price.substring(0, 7)}</div>
+                <div className="stat-title text-xs">Price of PEPE/USDT</div>
+                <div className="stat-value text-primary text-xl">{price}</div>
                 <div className="stat-desc">
                   <p>
                     <a className="text-accent"
-                      href="https://api.binance.com/api/v3/avgPrice?symbol=ICPUSDT"
-                      target="_blank">Binance API</a>
-                    {" "}| Refresh in {remaining}</p>
+                      href="https://indodax.com/api/ticker/pepeusdt"
+                      target="_blank">Indodax API</a></p>
                 </div>
               </div>
             </div>

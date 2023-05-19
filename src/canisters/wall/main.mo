@@ -96,6 +96,24 @@ shared (msg) actor class StudentWall() {
     wall.put(Nat.toText(messageId), m);
   };
 
+  public shared (msg) func setVotes(messageId : Nat, votes : Int) : async Result.Result<(), Text> {
+    assert (owner == msg.caller);
+    var m : Message = switch (wall.get(Nat.toText(messageId))) {
+      case null return #err("Invalid message ID");
+      case (?message) {
+        let m = {
+          id = message.id;
+          content = message.content;
+          vote = votes;
+          creator = message.creator;
+        };
+        wall.put(Nat.toText(messageId), m);
+        return #ok();
+      };
+    };
+    return #ok();
+  };
+
   public shared func upVote(messageId : Nat) : async Result.Result<(), Text> {
     var message : Message = switch (wall.get(Nat.toText(messageId))) {
       case null return #err("Invalid message ID");
@@ -212,17 +230,17 @@ shared (msg) actor class StudentWall() {
     };
   };
 
-  stable var price : Text = "5.29771397";
-  stable var fiveMinutely : Timer.TimerId = 0;
+  stable var price : Text = "N/A";
+  stable var hourly : Timer.TimerId = 0;
 
   public shared (msg) func startTimer() : () {
     assert (owner == msg.caller);
-    fiveMinutely := Timer.recurringTimer(#seconds(60 * 5), retrievePrice);
+    hourly := Timer.recurringTimer(#seconds(60 * 60), retrievePrice);
   };
 
   public shared (msg) func stopTimer() : () {
     assert (owner == msg.caller);
-    Timer.cancelTimer(fiveMinutely);
+    Timer.cancelTimer(hourly);
   };
 
   public shared query func getPrice() : async Text {
@@ -251,6 +269,12 @@ shared (msg) actor class StudentWall() {
     transformed;
   };
 
+  public shared (msg) func resetPrice() : async () {
+    assert (owner == msg.caller);
+    await retrievePrice();
+    return;
+  };
+
   private func retrievePrice() : async () {
     let transform_context : Outcalls.TransformContext = {
       function = transform;
@@ -259,21 +283,20 @@ shared (msg) actor class StudentWall() {
 
     // Construct canister request
     let request : Outcalls.CanisterHttpRequestArgs = {
-      url = "https://api.binance.com/api/v3/avgPrice?symbol=ICPUSDT";
+      url = "https://indodax.com/api/ticker/pepeusdt";
       max_response_bytes = null;
       headers = [];
       body = null;
       method = #get;
       transform = ?transform_context;
     };
-    Cycles.add(300_000_000_000);
+    Cycles.add(220_000_000_000);
     let ic : Outcalls.IC = actor ("aaaaa-aa");
     let response : Outcalls.CanisterHttpResponsePayload = await ic.http_request(request);
     price := decode_body_to_price(response);
   };
 
   private func decode_body_to_price(result : Outcalls.CanisterHttpResponsePayload) : (Text) {
-
     switch (Text.decodeUtf8(Blob.fromArray(result.body))) {
       case null { return "Payload Error" };
       case (?decoded) {
@@ -283,13 +306,18 @@ shared (msg) actor class StudentWall() {
             case (?json) {
               switch (json) {
                 case (#Object(json)) {
-                  for (item in json.vals()) {
-                    switch (item) {
-                      case ("price", #String(price)) {
-                        return price;
+                  switch (json[0]) {
+                    case (("ticker", #Object(ticker))) {
+                      for (item in ticker.vals()) {
+                        switch (item) {
+                          case ("sell", #String(price)) {
+                            return price;
+                          };
+                          case (_) {};
+                        };
                       };
-                      case (_) {};
                     };
+                    case (_) { return "No ticker found" };
                   };
                 };
                 case (_) { return "Not an Object" };
