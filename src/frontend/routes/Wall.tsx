@@ -72,7 +72,7 @@ export default function Wall({
             <div className="stats shadow h-20 bg-base-200">
               <div className="stat">
                 <div className="stat-title text-xs">Price of ICP</div>
-                <div className="stat-value text-primary text-xl">USDT ${price}</div>
+                <div className="stat-value text-primary text-xl">USDT ${price.substring(0, 7)}</div>
                 <div className="stat-desc">
                   <p>
                     <a className="text-accent"

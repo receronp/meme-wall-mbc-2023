@@ -212,7 +212,7 @@ shared (msg) actor class StudentWall() {
     };
   };
 
-  stable var price : Text = "N/A";
+  stable var price : Text = "5.29771397";
   stable var fiveMinutely : Timer.TimerId = 0;
 
   public shared (msg) func startTimer() : () {
@@ -266,7 +266,7 @@ shared (msg) actor class StudentWall() {
       method = #get;
       transform = ?transform_context;
     };
-    Cycles.add(20_000_000_000);
+    Cycles.add(300_000_000_000);
     let ic : Outcalls.IC = actor ("aaaaa-aa");
     let response : Outcalls.CanisterHttpResponsePayload = await ic.http_request(request);
     price := decode_body_to_price(response);
