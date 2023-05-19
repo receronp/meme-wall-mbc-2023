@@ -1,11 +1,11 @@
 {
   "canisters": {
-    "counter": {
-      "main": "src/canisters/counter/main.mo",
+    "wall": {
+      "main": "src/canisters/wall/main.mo",
       "type": "motoko"
     },
     "frontend": {
-      "dependencies": ["counter", "internet_identity"],
+      "dependencies": ["wall", "internet_identity"],
       "frontend": {
         "entrypoint": "dist/index.html"
       },
