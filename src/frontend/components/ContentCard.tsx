@@ -150,9 +150,9 @@ export default function ContentCard({
         </BaseCard>
       ) : "Image" in message.content ? (
         <BaseCard>
-          <figure className="h-48 bg-info-content">
+          <figure className="bg-info-content">
             <img
-              className="cardMedia-media"
+              className="min-w-full"
               src={getContentString(message.content)}
             />
           </figure>

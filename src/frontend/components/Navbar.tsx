@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import { Identity } from "@dfinity/agent"
 import { AuthClient } from "@dfinity/auth-client"
 import dfinityLogo from "../assets/dfinity-logo.svg"
-import memeWall from "../assets/meme-wall.svg"
 
 export default function Navbar({
   setIdentity,
@@ -66,7 +65,7 @@ export default function Navbar({
       <div className="grid w-full grid-cols-2">
         <div className="flex-1">
           <a className="btn btn-ghost normal-case text-xl" href="/">
-            <img className="w-48" src={memeWall}></img>
+            <img className="w-10 md:w-48 meme-logo"></img>
           </a>
         </div>
         <div className="inline-flex justify-end">
@@ -101,6 +100,7 @@ export default function Navbar({
                   tabIndex={0}
                   className="mt-3 p-2 shadow menu menu-compact dropdown-content rounded-box w-52 bg-neutral"
                 >
+                  <li onClick={() => { window.location.href = "/" }}><a>Home</a></li>
                   <li onClick={signOut}>
                     <a>Logout</a>
                   </li>

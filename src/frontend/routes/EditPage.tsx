@@ -166,6 +166,7 @@ export default function EditPage({
         <input
           autoFocus
           type="file"
+          accept="image/*"
           className="file-input file-input-bordered w-full max-w-xs my-2"
           {...register("content.Image", { required: true })}
         />

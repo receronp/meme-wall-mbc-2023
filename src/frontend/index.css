@@ -2,7 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-.cardMedia-media {
-  width: 8rem;
-  image-rendering: pixelated;
+@media (max-width: 768px) {
+  .meme-logo {
+    content: url("./assets/meme.svg");
+  }
+}
+
+@media (min-width: 768px) {
+  .meme-logo {
+    content: url("./assets/meme-wall.svg");
+  }
 }
