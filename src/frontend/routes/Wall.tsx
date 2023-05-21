@@ -18,9 +18,10 @@ export default function Wall({
     React.SetStateAction<ActorSubclass<_SERVICE> | undefined>
   >
 }) {
-  const [messages, setMessages] = useState<Message[]>()
+  const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [price, setPrice] = useState<string>("")
+  const [ranks, setRanks] = useState<bigint[]>([])
 
   useEffect(() => {
     refreshWall()
@@ -47,9 +48,24 @@ export default function Wall({
 
   const refreshWall = async () => {
     const actor = authWall ?? wall
-    const res = await actor.getAllMessagesRanked()
-    setMessages(res)
+    const res = await actor.getAllMessageIndicesRanked()
+    setRanks(res)
   }
+
+  useEffect(() => {
+    const getMessages = async () => {
+      var messages: Message[] = []
+      const actor = authWall ?? wall
+      for (const ii of ranks) {
+        const res = await actor.getMessage(ii)
+        if ("ok" in res) {
+          messages.push(res.ok)
+        }
+      }
+      return messages
+    }
+    getMessages().then(result => setMessages(result))
+  }, [ranks])
 
   const refreshPrice = async () => {
     const actor = authWall ?? wall
@@ -86,7 +102,7 @@ export default function Wall({
           </div>
           <div className="grid">
             <div className="col-span-4">
-              {messages?.map((msg, i) => {
+              {messages.map((msg, i) => {
                 return (
                   <div key={i} className="grid place-content-center my-4">
                     <ContentCard

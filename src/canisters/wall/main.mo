@@ -142,13 +142,13 @@ shared (msg) actor class StudentWall() {
     return List.toArray(messages);
   };
 
-  public query func getAllMessagesRanked() : async [Message] {
+  public query func getAllMessageIndicesRanked() : async [Nat] {
     var messages = List.nil<Message>();
     for (message in wall.vals()) {
       messages := List.push(message, messages);
     };
     var msgArr = List.toArray(messages);
-    Array.sort<Message>(
+    msgArr := Array.sort<Message>(
       msgArr,
       func(a : Message, b : Message) {
         if (a.vote > b.vote) { #less } else if (a.vote == b.vote) { #equal } else {
@@ -156,6 +156,7 @@ shared (msg) actor class StudentWall() {
         };
       },
     );
+    Array.mapEntries<Message, Nat>(msgArr, func(m, i) = m.id);
   };
 
   func toSurvey(c : Content) : Survey {

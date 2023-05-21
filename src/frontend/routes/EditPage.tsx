@@ -28,6 +28,7 @@ export default function EditPage({
   } = useForm<{ content: Content }>()
   const [loading, setLoading] = useState<boolean>(false)
   const [contentType, setContentType] = useState<string>("image")
+  const [isTooBig, setIsTooBig] = useState<boolean>(false)
 
   useEffect(() => {
     const getMessage = async () => {
@@ -67,14 +68,24 @@ export default function EditPage({
             Text: data.content.Text,
           })
           : await authWall.writeMessage({ Text: data.content.Text })
+        setLoading(false)
+        navigate("/")
       } else if (contentType == "image" && "Image" in data.content) {
         const image: any = data.content.Image[0]
-        const imageByteData = [...new Uint8Array(await image.arrayBuffer())]
-        res = key
-          ? await authWall.updateMessage(BigInt(key), {
-            Image: imageByteData,
-          })
-          : await authWall.writeMessage({ Image: imageByteData })
+        if (image.size < 1024 * 1024 * 2) {
+          const imageByteData = [...new Uint8Array(await image.arrayBuffer())]
+          res = key
+            ? await authWall.updateMessage(BigInt(key), {
+              Image: imageByteData,
+            })
+            : await authWall.writeMessage({ Image: imageByteData })
+          setLoading(false)
+          setIsTooBig(false)
+          navigate("/")
+        } else {
+          setLoading(false)
+          setIsTooBig(true)
+        }
       } else if (contentType == "survey" && "Survey" in data.content) {
         const survey = data.content.Survey
         if (key) {
@@ -85,15 +96,14 @@ export default function EditPage({
           survey.answers = []
           res = await authWall.writeMessage({ Survey: survey })
         }
+        setLoading(false)
+        navigate("/")
       }
-      console.log(res)
     } else {
       console.log(
         "There seems to be an issue with the agent for the backend canister.",
       )
     }
-    setLoading(false)
-    navigate("/")
   }
 
   type EditProps = {
@@ -114,6 +124,9 @@ export default function EditPage({
                   <span className="text-primary">This field is required</span>
                 </div>
               )}
+              {isTooBig && <div>
+                <span className="text-primary">Input file needs to be less than 2MB</span>
+              </div>}
               <div>
                 <LoginTooltip
                   display={

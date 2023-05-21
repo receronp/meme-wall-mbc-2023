@@ -5,6 +5,9 @@ import { getContentString } from "../utils/ContentUtil"
 import { wall } from "../../declarations/wall"
 import { Message, _SERVICE } from "../../declarations/wall/wall.did"
 import BaseCard from "./BaseCard"
+import likeButton from "../assets/like-button-icon.svg"
+import dislikeButton from "../assets/dislike-button-icon.svg"
+
 
 export default function ContentCard({
   message,
@@ -82,7 +85,7 @@ export default function ContentCard({
               <div className="inline-flex">
                 <input
                   type="image"
-                  src="../assets/like-button-icon.svg"
+                  src={likeButton}
                   style={{ filter: "invert(1)" }}
                   className="mx-1 h-8"
                   onClick={() => {
@@ -91,7 +94,7 @@ export default function ContentCard({
                 />
                 <input
                   type="image"
-                  src="../assets/dislike-button-icon.svg"
+                  src={dislikeButton}
                   style={{ filter: "invert(1)" }}
                   className="mx-1 h-8"
                   onClick={() => {
@@ -152,7 +155,7 @@ export default function ContentCard({
         <BaseCard>
           <figure className="bg-info-content">
             <img
-              className="min-w-full"
+              className="h-80 lg:h-96"
               src={getContentString(message.content)}
             />
           </figure>
