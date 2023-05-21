@@ -4,7 +4,6 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { ActorSubclass, Identity } from "@dfinity/agent"
 import LoginTooltip from "../components/LoginTooltip"
 import LoadingContent from "../components/LoadingContent"
-import BaseCard from "../components/BaseCard"
 import { wall } from "../../declarations/wall"
 import { Answer, _SERVICE } from "../../declarations/wall/wall.did"
 
