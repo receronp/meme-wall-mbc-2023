@@ -1,26 +1,30 @@
-import React, { ReactNode } from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { ActorSubclass, Identity } from "@dfinity/agent"
 import { getContentString } from "../utils/ContentUtil"
 import { wall } from "../../declarations/wall"
 import { Message, _SERVICE } from "../../declarations/wall/wall.did"
 import BaseCard from "./BaseCard"
+import likeButton from "../assets/like-button-icon.svg"
+import dislikeButton from "../assets/dislike-button-icon.svg"
+
 
 export default function ContentCard({
   message,
   identity,
   refreshWall,
   authWall,
-  setLoading,
 }: {
   message: Message
   identity: Identity | undefined
   refreshWall: () => Promise<void>
   authWall: ActorSubclass<_SERVICE> | undefined
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }) {
+  const [voteLoading, setVoteLoading] = useState<any>()
+  const [deleteLoading, setDeleteLoading] = useState<any>()
+
   const onVote = async (upVote: boolean, index: bigint) => {
-    setLoading(true)
+    setVoteLoading(true)
     const actor = authWall ?? wall
     if (upVote) {
       await actor.upVote(index)
@@ -28,15 +32,15 @@ export default function ContentCard({
       await actor.downVote(index)
     }
     refreshWall()
-    setLoading(false)
+    setVoteLoading(false)
   }
 
   const onDelete = async (index: bigint) => {
-    setLoading(true)
+    setDeleteLoading(true)
     const actor = authWall ?? wall
     await actor.deleteMessage(index)
     refreshWall()
-    setLoading(false)
+    setDeleteLoading(false)
   }
 
   const AuthorCardActions = ({
@@ -52,23 +56,27 @@ export default function ContentCard({
           <button className="btn btn-xs btn-info">
             <Link to={`survey/${msg.id}`}>survey</Link>
           </button>}
-        {identity?.getPrincipal().toText() == msg.creator.toText() && (
-          <>
-            {canUpdate ? (
-              <button className="btn btn-xs btn-warning">
-                <Link to={`post/${msg.id}`}>update</Link>
+        {deleteLoading ?
+          <button className="btn btn-square loading"></button>
+          :
+          identity?.getPrincipal().toText() == msg.creator.toText()
+          && (
+            <>
+              {canUpdate ? (
+                <button className="btn btn-xs btn-warning">
+                  <Link to={`post/${msg.id}`}>update</Link>
+                </button>
+              ) : (
+                <></>
+              )}
+              <button
+                onClick={() => onDelete(msg.id)}
+                className="btn btn-xs btn-error"
+              >
+                delete
               </button>
-            ) : (
-              <></>
-            )}
-            <button
-              onClick={() => onDelete(msg.id)}
-              className="btn btn-xs btn-error"
-            >
-              delete
-            </button>
-          </>
-        )}
+            </>
+          )}
       </>
     )
   }
@@ -76,13 +84,16 @@ export default function ContentCard({
   const UserCardActions = ({ msg }: { msg: Message }) => {
     return (
       <>
-        {identity &&
+        {voteLoading ?
+          <button className="btn btn-square loading"></button>
+          :
+          identity &&
           !(identity?.getPrincipal().toText() == msg.creator.toText()) && (
             <>
               <div className="inline-flex">
                 <input
                   type="image"
-                  src="../assets/like-button-icon.svg"
+                  src={likeButton}
                   style={{ filter: "invert(1)" }}
                   className="mx-1 h-8"
                   onClick={() => {
@@ -91,7 +102,7 @@ export default function ContentCard({
                 />
                 <input
                   type="image"
-                  src="../assets/dislike-button-icon.svg"
+                  src={dislikeButton}
                   style={{ filter: "invert(1)" }}
                   className="mx-1 h-8"
                   onClick={() => {
@@ -152,7 +163,7 @@ export default function ContentCard({
         <BaseCard>
           <figure className="bg-info-content">
             <img
-              className="min-w-full"
+              className="h-80 lg:h-96"
               src={getContentString(message.content)}
             />
           </figure>

@@ -89,7 +89,7 @@ export default function Navbar({
           )}
           {signedIn && (
             <>
-              <div className="hidden lg:block">Signed in as: {principal}</div>
+              <div className="hidden md:block">Signed in as: {principal}</div>
               <div className="dropdown dropdown-end">
                 <label tabIndex={0} className="btn btn-ghost">
                   <div className="w-10 rounded-full">
@@ -104,6 +104,7 @@ export default function Navbar({
                   <li onClick={signOut}>
                     <a>Logout</a>
                   </li>
+                  <li className="md:hidden"><a>Signed in as: {principal}</a></li>
                 </ul>
               </div>
             </>
