@@ -20,15 +20,25 @@ export default function Wall({
   const [messages, setMessages] = useState<Message[]>([])
   const [price, setPrice] = useState<string>("")
   const [ranks, setRanks] = useState<bigint[]>([])
+  const [remainingMin, setRemainingMin] = useState<number>(59)
+  const [remainingSec, setRemainingSec] = useState<number>(59)
 
   useEffect(() => {
     refreshWall()
     refreshPrice()
-    const interval10 = setInterval(() => {
+    const intervalHourly = setInterval(() => {
       refreshPrice()
-    }, 1000 * 10);
+    }, 1000 * 60 * 60);
+    const intervalMinutely = setInterval(() => {
+      setRemainingMin(remainingMin => remainingMin == 0 ? 59 : remainingMin - 1)
+    }, 1000 * 60);
+    const interval1 = setInterval(() => {
+      setRemainingSec(remainingSec => remainingSec == 0 ? 59 : remainingSec - 1)
+    }, 1000);
     return () => {
-      clearInterval(interval10)
+      clearInterval(intervalHourly)
+      clearInterval(intervalMinutely)
+      clearInterval(interval1)
     };
   }, [])
 
@@ -83,7 +93,11 @@ export default function Wall({
                 <p>
                   <a className="text-accent"
                     href="https://indodax.com/api/ticker/pepeusdt"
-                    target="_blank">Indodax API</a></p>
+                    target="_blank">Indodax API</a>
+                  {" "}| Refresh in{" "}
+                  {remainingMin.toString().padStart(2, "0")}:
+                  {remainingSec.toString().padStart(2, "0")}
+                </p>
               </div>
             </div>
           </div>
