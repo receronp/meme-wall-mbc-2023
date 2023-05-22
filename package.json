@@ -1,6 +1,6 @@
 {
   "name": "mb-wall",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite src/frontend --config vite.config.ts",
     "prebuild": "npm run generate",
