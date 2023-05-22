@@ -33,7 +33,9 @@ export default function Navbar({
     const { identity, principal } = await new Promise<UserIdentity>(
       (resolve, reject) => {
         client.login({
-          identityProvider: "https://identity.ic0.app/#authorize",
+          identityProvider: process.env.NODE_ENV === "development" ?
+            `http://${process.env.INTERNET_IDENTITY_CANISTER_ID}.localhost:4943` :
+            "https://identity.ic0.app/#authorize",
           onSuccess: () => {
             const identity = client.getIdentity()
             const principal = identity.getPrincipal().toString()
